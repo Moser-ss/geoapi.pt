@@ -20,6 +20,7 @@ jobs:
       # build the application image
       - run:
           name: Build Container image
+          no_output_timeout: 30m
           command: docker build -t moser-ss/geoapi.pt:$CIRCLE_BRANCH .
 
       # deploy the image
