@@ -13,6 +13,7 @@ COPY package*.json ./
 RUN npm ci --omit=dev
 
 # Bundle app source
+COPY res/ ./res
 COPY src/ ./src
 COPY routines/ ./routines
 COPY configs.json .

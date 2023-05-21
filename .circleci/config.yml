@@ -6,10 +6,30 @@ version: 2.1
 orbs:
   node: circleci/node@4.7
 
+
+jobs:
+  docker-build:
+    machine:
+      image: ubuntu-2204:2022.04.2
+    steps:
+      - checkout
+      - run:
+          name: Login to Docker
+          command: echo "$DOCKER_PASS" | docker login --username $DOCKER_USER --password-stdin
+
+      # build the application image
+      - run:
+          name: Build Container image
+          command: docker build -t moser-ss/geoapi.pt:$CIRCLE_BRANCH .
+
+      # deploy the image
+      - run: 
+          name: Push Container Image
+          command: docker push moser-ss/geoapi.pt:$CIRCLE_BRANCH
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
-  sample: # This is the name of the workflow, feel free to change it to better match your workflow.
+  ci-cd: # This is the name of the workflow, feel free to change it to better match your workflow.
     # Inside the workflow, you define the jobs you want to run.
     jobs:
       - node/test:
@@ -19,3 +39,6 @@ workflows:
           version: '16.10'
           # If you are using yarn, change the line below from "npm" to "yarn"
           pkg-manager: npm
+
+      - docker-build
+      
