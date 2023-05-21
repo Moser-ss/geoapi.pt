@@ -11,4 +11,4 @@ services:
     volumes:
       - type: bind
         source: ./res
-        target: /usr/src/app/res
+        target: /app/res
