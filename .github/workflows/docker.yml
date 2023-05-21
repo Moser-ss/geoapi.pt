@@ -20,7 +20,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: moser-ss/geoapi.pt
+          images: ${{ secrets.DOCKER_USERNAME }}/geoapi.pt
           flavor: |
             latest=${{ github.event_name != 'pull_request'}}
             
